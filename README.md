@@ -1,16 +1,8 @@
-# React + Vite
+Reflection
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+1. The most challenging part of the project
 
-Currently, two official plugins are available:
+The hardest part of this project for me was keeping all the moving pieces organized while working with multiple pages, API calls, and global state. I had to constantly think about how data flowed from one part of the app to another, especially when switching between categories, search results, and recipe details. Debugging API responses also took time because some endpoints returned slightly different shapes of data. Another challenge was making sure the UI didn’t break when the API returned null or empty results. I also had to learn how to handle loading and error states in a clean way so the app didn’t feel broken. Overall, the project pushed me to think more like a real developer instead of just writing isolated components.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## React Compiler
-
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+2. Why I chose this Design decision
+One design decision I spent time thinking about was how to structure my custom hooks, especially useFetch. I wanted it to be reusable across the entire app, so I made sure it handled loading, errors, and cleanup in one place instead of repeating that logic in every page. I also chose to manage favorites using a context combined with my useLocalStorage hook because it kept the state global and persistent without extra libraries. This made it easy for any component to check if a recipe was a favorite without passing props around. It also kept the code cleaner and made the Favorites page much simpler to build. In the end, this approach helped the whole app feel more organized and consistent.

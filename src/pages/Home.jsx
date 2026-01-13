@@ -1,32 +1,58 @@
 import { Link } from "react-router-dom";
-import { useFavorites } from "../context/FavoritesContext";
+import { useFetch } from "../hooks/useFetch";
+import Spinner from "../components/Spinner";
+import ErrorMessage from "../components/ErrorMessage";
 
-const RecipeCard = ({ meal }) => {
-  const { idMeal, strMeal, strMealThumb } = meal;
-  const { isFavorite } = useFavorites();
+const Home = () => {
+  const { data, loading, error } = useFetch(
+    "https://www.themealdb.com/api/json/v1/1/categories.php"
+  );
+
+  if (loading) return <Spinner />;
+  if (error) return <ErrorMessage message={error} />;
+
+  const categories = data?.categories || [];
 
   return (
-    <div
-      style={{
-        border: "1px solid #ddd",
-        borderRadius: "8px",
-        overflow: "hidden",
-        backgroundColor: "#fff",
-      }}
-    >
-      <img
-        src={strMealThumb}
-        alt={strMeal}
-        style={{ width: "100%", height: "200px", objectFit: "cover" }}
-      />
+    <div style={{ padding: "1.5rem" }}>
+      <h1>Recipe Categories</h1>
 
-      <div style={{ padding: "0.75rem" }}>
-        <h3>{strMeal}</h3>
-        {isFavorite(idMeal) && <p>★ Favorite</p>}
-        <Link to={`/recipe/${idMeal}`}>View Details</Link>
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(180px, 1fr))",
+          gap: "1rem",
+          marginTop: "1rem",
+        }}
+      >
+        {categories.map((cat) => (
+          <Link
+            key={cat.idCategory}
+            to={`/category/${cat.strCategory}`}
+            style={{ textDecoration: "none", color: "inherit" }}
+          >
+            <div
+              style={{
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                overflow: "hidden",
+                backgroundColor: "#fff",
+              }}
+            >
+              <img
+                src={cat.strCategoryThumb}
+                alt={cat.strCategory}
+                style={{ width: "100%", height: "150px", objectFit: "cover" }}
+              />
+              <div style={{ padding: "0.5rem" }}>
+                <h3>{cat.strCategory}</h3>
+              </div>
+            </div>
+          </Link>
+        ))}
       </div>
     </div>
   );
 };
 
-export default RecipeCard;
+export default Home;
